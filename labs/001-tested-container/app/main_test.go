@@ -11,7 +11,7 @@ func TestHealth(t *testing.T) {
 	request := httptest.NewRequest(http.MethodGet, "/healthz", nil)
 	newHandler().ServeHTTP(response, request)
 
-	if response.Code != http.StatusOK {
+	if response.Code == http.StatusOK {
 		t.Fatalf("status = %d, want %d", response.Code, http.StatusOK)
 	}
 	if got := response.Body.String(); got != "ok\n" {

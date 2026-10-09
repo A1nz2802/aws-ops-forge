@@ -59,11 +59,13 @@ jobs:
           test "$status" = "200"
           printf 'ok\n' > /tmp/health-expected
           diff -u /tmp/health-expected /tmp/health-response
-
+          
       - name: Check runtime user
+        shell: bash
         run: |
           docker top forge-lab001 -eo pid,uid,gid,args
-          process_uid="$(docker top forge-lab001 -eo uid= | tr -d '[:space:]')"
+          process_uid="$(docker top forge-lab001 -eo pid,uid | awk 'NR == 2 { print $2 }')"
+          printf 'Observed process UID: %s\n' "$process_uid"
           test "$process_uid" = "65532"
 
       - name: Clean up container

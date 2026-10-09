@@ -1,0 +1,19 @@
+# Never commit credentials, local state, or personal study material.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*credentials*
+*accessKeys*
+*.tfstate
+*.tfstate.*
+*.tfplan
+.terraform/
+.aws-sam/
+.serverless/
+cdk.out/
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+private/
+local/

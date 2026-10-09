@@ -1,0 +1,6 @@
+# Allow only the current application's build inputs into the context.
+**
+!app/
+!app/go.mod
+!app/main.go
+!app/main_test.go

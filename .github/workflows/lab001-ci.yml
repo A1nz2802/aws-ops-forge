@@ -1,0 +1,74 @@
+name: Lab 001 CI
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version: '1.26.9'
+          cache: false
+
+      - name: Check runner
+        run: |
+          uname -s
+          docker --version
+
+      - name: Run Go tests
+        working-directory: labs/001-tested-container/app
+        run: go test -count=1 -v ./...
+
+      - name: Build image
+        run: docker build -t aws-ops-forge:lab001 labs/001-tested-container
+
+      - name: Start container
+        run: |
+          docker run --detach \
+            --name forge-lab001 \
+            --publish 127.0.0.1:8080:8080 \
+            aws-ops-forge:lab001
+
+      - name: Check HTTP health
+        run: |
+          status="$(curl \
+            --fail \
+            --show-error \
+            --silent \
+            --retry 5 \
+            --retry-connrefused \
+            --retry-delay 1 \
+            --max-time 2 \
+            --output /tmp/health-response \
+            --write-out '%{http_code}' \
+            http://127.0.0.1:8080/healthz)"
+
+          test "$status" = "200"
+          printf 'ok\n' > /tmp/health-expected
+          diff -u /tmp/health-expected /tmp/health-response
+
+      - name: Check runtime user
+        run: |
+          docker top forge-lab001 -eo pid,uid,gid,args
+          process_uid="$(docker top forge-lab001 -eo uid= | tr -d '[:space:]')"
+          test "$process_uid" = "65532"
+
+      - name: Clean up container
+        if: ${{ always() }}
+        run: |
+          if docker container inspect forge-lab001 > /dev/null 2>&1; then
+            docker rm --force forge-lab001
+          fi

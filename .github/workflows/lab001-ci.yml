@@ -68,12 +68,6 @@ jobs:
           printf 'Observed process UID: %s\n' "$process_uid"
           test "$process_uid" = "65532"
 
-      - name: Check runtime user
-        run: |
-          docker top forge-lab001 -eo pid,uid,gid,args
-          process_uid="$(docker top forge-lab001 -eo uid= | tr -d '[:space:]')"
-          test "$process_uid" = "65532"
-
       - name: Clean up container
         if: ${{ always() }}
         run: |

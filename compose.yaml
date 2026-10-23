@@ -1,0 +1,37 @@
+name: aws-ops-forge
+
+services:
+  tools:
+    image: aws-ops-forge:tools
+    build:
+      context: ./tools
+      args:
+        TOOL_UID: "${LOCAL_UID:?Use ./forge to select your host UID}"
+        TOOL_GID: "${LOCAL_GID:?Use ./forge to select your host GID}"
+    user: "${LOCAL_UID:?Use ./forge}:${LOCAL_GID:?Use ./forge}"
+    working_dir: /workspace
+    environment:
+      HOME: /home/forge
+      AWS_PROFILE: forge
+      AWS_REGION: us-east-2
+      AWS_DEFAULT_REGION: us-east-2
+      AWS_EC2_METADATA_DISABLED: "true"
+      AWS_PAGER: ""
+      AWS_CLI_AUTO_PROMPT: "off"
+      CHECKPOINT_DISABLE: "1"
+    volumes:
+      - type: bind
+        source: .
+        target: /workspace
+      - type: volume
+        source: tools-home
+        target: /home/forge
+    read_only: true
+    tmpfs:
+      - /tmp:rw,exec,nosuid,nodev,size=512m,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    command: ["bash"]
+
+volumes:
+  tools-home:

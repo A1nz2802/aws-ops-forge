@@ -1,0 +1,26 @@
+#!/bin/sh
+# Small Compose convenience wrapper; never authenticates or deploys on its own.
+set -eu
+
+PROJECT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+export LOCAL_UID="$(id -u)"
+export LOCAL_GID="$(id -g)"
+
+if [ "$LOCAL_UID" = 0 ]; then
+  printf '%s\n' 'Run this wrapper as your normal host user, not root.' >&2
+  exit 1
+fi
+
+case "${1:-}" in
+  build)
+    shift
+    exec docker compose --project-directory "$PROJECT_DIR" -f "$PROJECT_DIR/compose.yaml" build tools "$@"
+    ;;
+  compose)
+    shift
+    exec docker compose --project-directory "$PROJECT_DIR" -f "$PROJECT_DIR/compose.yaml" "$@"
+    ;;
+  *)
+    exec docker compose --project-directory "$PROJECT_DIR" -f "$PROJECT_DIR/compose.yaml" run --rm tools "$@"
+    ;;
+esac

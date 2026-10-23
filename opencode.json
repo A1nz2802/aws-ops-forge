@@ -1,0 +1,86 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "forge-mentor",
+  "model": "openai/gpt-6.1-sol",
+  "subagent_depth": 1,
+  "instructions": ["AGENTS.md"],
+  "agent": {
+    "forge-mentor": {
+      "description": "Primary Spanish-speaking tutor and orchestrator for AWS Ops Forge labs.",
+      "mode": "primary",
+      "model": "openai/gpt-6.1-sol",
+      "reasoningEffort": "medium",
+      "prompt": "{file:./.opencode/agents/forge-mentor.md}",
+      "permission": {
+        "*": "deny",
+        "read": "allow",
+        "edit": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "todowrite": "allow",
+        "task": "allow",
+        "webfetch": "allow",
+        "websearch": "allow",
+        "bash": "ask",
+        "external_directory": "ask"
+      }
+    },
+    "aws-researcher": {
+      "description": "Researches AWS documentation, toolkit capabilities, and DDIA references for a specific lab question.",
+      "mode": "subagent",
+      "model": "openai/gpt-6-luna",
+      "reasoningEffort": "high",
+      "prompt": "{file:./.opencode/agents/aws-researcher.md}",
+      "permission": {
+        "*": "deny",
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "webfetch": "allow",
+        "websearch": "allow",
+        "external_directory": "ask",
+        "task": "deny",
+        "edit": "deny",
+        "bash": "deny"
+      }
+    },
+    "engineering-reviewer": {
+      "description": "Reviews learner-produced Go, IaC, tests, security boundaries, cost exposure, and evidence without changing files.",
+      "mode": "subagent",
+      "model": "openai/gpt-6-luna",
+      "reasoningEffort": "high",
+      "prompt": "{file:./.opencode/agents/engineering-reviewer.md}",
+      "permission": {
+        "*": "deny",
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "external_directory": "ask",
+        "task": "deny",
+        "edit": "deny",
+        "bash": "deny"
+      }
+    }
+  },
+  "command": {
+    "lab-start": {
+      "description": "Start or resume a lab from its brief and compact durable state.",
+      "agent": "forge-mentor",
+      "template": "Follow AGENTS.md and docs/SESSION-PROTOCOL.md. Start or resume lab $ARGUMENTS (or the active lab if omitted). Load learning/PROGRESS.md, the requested brief/checkpoint, and only directly relevant artifacts; do not load archived histories or unrelated notes by default. Do not start another lab in a closing session. For a fresh lab present business constraints, acceptance criteria and ownership, then ask for one design/prediction. For a resumed lab summarize verified state and continue the next practice block without a mandatory recall question. Use explicit bounded phase approvals for AWS, not per-command permission loops."
+    },
+    "lab-checkpoint": {
+      "description": "Persist current lab state so work can continue in a new session without chat history.",
+      "agent": "forge-mentor",
+      "template": "Follow AGENTS.md. Replace the active checkpoint's current state using learning/LAB-CHECKPOINT-TEMPLATE.md: decisions, evidence, exact approved scope/stop conditions, retained resources and next action. Keep it roughly one or two screens; no transcript or obsolete next steps. Keep learning/PROGRESS.md as a short index. Preserve necessary detailed evidence separately if it would otherwise be lost. Do not close the lab or generate a second evidence ledger in notes."
+    },
+    "lab-close": {
+      "description": "Assess lab evidence, record learning, and prepare an explicit handoff to a new session.",
+      "agent": "forge-mentor",
+      "template": "Follow AGENTS.md and the Close section of docs/SESSION-PROTOCOL.md. Assess acceptance criteria and cleanup honestly, distinguishing observed, reported, static/local and real-AWS evidence. Complete approved cleanup without repeated consent; stop for changed scope. Follow docs/LEARNING-NOTES.md to write/update one concise private Spanish Obsidian lab note now from actual evidence, link it from private notes/START-HERE.md, and keep uncertainty/partial outcomes visible. Initialize local ignored notes/template if absent; never stage or publish notes/. Public summaries remain English. Update the compact checkpoint and PROGRESS index, preserving needed evidence history separately. No curator invocation required. A missing vault symlink is not a blocker. End with status and, when ready, explicitly tell the learner in Spanish to open a new session for the next lab. Do not begin it here."
+    }
+  },
+  "share": "disabled"
+}

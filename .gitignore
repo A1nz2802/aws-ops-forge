@@ -1,4 +1,3 @@
-# Never commit credentials, local state, or personal study material.
 .env
 .env.*
 !.env.example
@@ -10,6 +9,14 @@
 *.tfstate.*
 *.tfplan
 .terraform/
+# Local Terraform inputs and diagnostics can contain secrets or account data.
+*.tfvars
+*.tfvars.json
+crash.log
+crash.*.log
+.terraformrc
+terraform.rc
+.aws/
 .aws-sam/
 .serverless/
 cdk.out/
@@ -17,3 +24,11 @@ cdk.out/
 .obsidian/workspace-mobile.json
 private/
 local/
+# Private Spanish learning notes, linked into the personal Obsidian vault.
+/notes/
+# OpenCode-generated local dependencies/configuration, not authored agent rules.
+/.opencode/node_modules/
+/.opencode/package.json
+/.opencode/package-lock.json
+/.opencode/bun.lock
+/.opencode/.gitignore

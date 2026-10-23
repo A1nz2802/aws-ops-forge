@@ -61,7 +61,10 @@ docker build -t aws-ops-forge:lab001 labs/001-tested-container
 Tests remain a separate CI gate: a successful image build alone does not prove
 that tests passed. The learner reported a successful local build and demonstrated
 HTTP 200 with the expected body, runtime UID/GID 65532, and named-container
-removal. Hosted CI execution and failure gating remain unvalidated.
+removal. Subsequent hosted runs demonstrated failure gating, restored success,
+and manual/PR/push triggers. See `learning/checkpoint-001-tested-container.md`
+for evidence boundaries. Private local refreshers are not part of publication;
+their workflow is described in `docs/LEARNING-NOTES.md`.
 
 ## Evidence and exam mapping
 

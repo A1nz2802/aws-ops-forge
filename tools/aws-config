@@ -1,0 +1,8 @@
+# CLI login cache belongs to the source profile. Do not put login_session
+# on the consumer profile: Go SDK v2 uses credential_process instead.
+[profile forge-login]
+region = us-east-2
+
+[profile forge]
+region = us-east-2
+credential_process = /usr/local/bin/aws configure export-credentials --profile forge-login --format process

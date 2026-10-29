@@ -1,0 +1,19 @@
+# Build the local orchestrator from a fixed Go module version.
+FROM golang:1.26@sha256:3745f1aa11822297b79113f5e84ce2bffeb039734571c39855809cfe9e5d7be6 AS actbuild
+ENV CGO_ENABLED=0 GOTOOLCHAIN=local
+RUN GOBIN=/out go install -trimpath -ldflags="-X main.version=0.2.89" github.com/nektos/act@v0.2.89
+
+# Source of the AWS CLI installation; no credentials are copied.
+FROM amazon/aws-cli:2.32.7@sha256:2fcb4059b4f87a42cfe28a674bee119c0c484f7bdc67f1643f9dda0200134d1e AS awscli
+
+# Final image: preserve the ACT runner tools.
+FROM ghcr.io/catthehacker/ubuntu@sha256:62d572b92f9f32d3427b6d220ad1f9dca9c7b6ffad37d295425037dbff78abaf
+
+# Copy only the CLI distribution, never profiles or cached credentials.
+COPY --from=awscli /usr/local/aws-cli /usr/local/aws-cli
+COPY --from=actbuild /out/act /usr/local/bin/act
+
+# Fail the build if the copied CLI cannot run on the runner base image.
+RUN ln -s /usr/local/aws-cli/v2/current/bin/aws /usr/local/bin/aws \
+    && aws --version \
+    && act --version

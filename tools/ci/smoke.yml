@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Local Runner Smoke Test
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+
+    steps:
+      - name: Inspect execution environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf 'Local runner is executing\n'
+          uname -s
+          uname -m
+          bash --version
+          pwd
+          test ! -S /var/run/docker.sock
+          test -z "${GITHUB_TOKEN:-}"
+          printf 'Runner boundary checks passed\n'

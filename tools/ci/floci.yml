@@ -1,0 +1,35 @@
+name: Local Floci Connectivity
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  floci:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    env:
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      AWS_EC2_METADATA_DISABLED: "true"
+      AWS_CONFIG_FILE: /dev/null
+      AWS_SHARED_CREDENTIALS_FILE: /dev/null
+      AWS_PAGER: ""
+
+    steps:
+      - name: Check local emulated STS response
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -S /var/run/docker.sock
+          aws --version
+          account="$(aws \
+            --endpoint-url http://floci:4566 \
+            --region us-east-1 \
+            --cli-connect-timeout 3 \
+            --cli-read-timeout 5 \
+            sts get-caller-identity \
+            --query Account --output text)"
+          test "$account" = "000000000000"
+          printf 'Local Floci connectivity passed; this is not real AWS identity evidence.\n'

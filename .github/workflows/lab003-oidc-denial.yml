@@ -1,0 +1,35 @@
+name: lab003-oidc-denial
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deny_assume_role:
+    runs-on: ubuntu-24.04
+    if: github.ref == 'refs/heads/lab003-oidc-denial'
+    timeout-minutes: 3
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Attempt to assume publisher role
+        id: assume_role
+        continue-on-error: true
+        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+          retry-max-attempts: 1
+
+      - name: Require role assumption to fail
+        shell: bash
+        env:
+          ASSUME_ROLE_OUTCOME: ${{ steps.assume_role.outcome }}
+        run: |
+          if [[ "$ASSUME_ROLE_OUTCOME" != "failure" ]]; then
+            printf 'Expected role assumption to fail; observed: %s\n' \
+              "$ASSUME_ROLE_OUTCOME" >&2
+            exit 1
+          fi
+
+          printf 'Role assumption failed; review the previous step for the expected STS denial.\n'

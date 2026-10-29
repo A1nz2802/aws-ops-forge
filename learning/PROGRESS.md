@@ -13,9 +13,12 @@ Short durable index. Evidence belongs in checkpoints; practical refreshers in
 
 ## Current state
 
-- Active lab: **none**. Lab 002 closed; only requested harness maintenance here.
-- Next: open a new dedicated session to scope the next lab with the compact
-  `learning/checkpoint-002-image-registry.md`. No current AWS phase approval.
+- Active lab: **003**; local CI tooling baseline validated on the original host.
+- Next: `learning/checkpoint-003-ci-image-publish.md`; resume publication work.
+  Containerized ACT, dedicated network, Floci and lifecycle tests passed locally;
+  cold/second-host reproduction and real platform checks remain unvalidated.
+  Bounded real publication/denial/cleanup phase approved; see checkpoint.
+  Consolidated engineering section due at closure.
 - Shared tools: `tools/README.md`; host editor, `./forge` for Go/CLI/Terraform.
 - Harness streamlined: two read-only specialists, three lab commands, explicit
   phase approvals and mandatory practical closure notes; no new tool services.

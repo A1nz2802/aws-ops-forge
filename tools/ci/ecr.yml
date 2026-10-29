@@ -1,0 +1,20 @@
+name: Local ECR Integration
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ecr:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Copy local source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Test local publication and immutable tags
+        shell: bash
+        run: bash tools/ci/ecr-test.sh

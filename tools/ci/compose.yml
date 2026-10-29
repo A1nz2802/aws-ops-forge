@@ -1,0 +1,35 @@
+name: forge-floci
+
+services:
+  controller:
+    image: aws-ops-forge/act-runner:local
+    pull_policy: never
+    profiles: ["tests"]
+    working_dir: /workspace
+    entrypoint: ["bash", "/workspace/tools/ci/controller.sh"]
+    volumes:
+      - ../..:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - ci
+
+  floci:
+    image: floci/floci@sha256:e0b292df4dc9559b7b1bf4f51bdda4bb8e269276236438cd03cae661260ea8a9
+
+    ports:
+      - "127.0.0.1:4566:4566"
+    networks:
+      - ci
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      FLOCI_STORAGE_MODE: "memory"
+      FLOCI_SERVICES_ECR_REGISTRY_CONTAINER_NAME: "forge-ci-ecr-registry"
+      FLOCI_SERVICES_ECR_REGISTRY_IMAGE: "registry:2@sha256:a3d8aaa63ed8681a604f1dea0aa03f100d5895b6a58ace528858a7b332415373"
+      FLOCI_SERVICES_ECR_KEEP_RUNNING_ON_SHUTDOWN: "false"
+      FLOCI_SERVICES_ECR_URI_STYLE: "path"
+
+networks:
+  ci:
+    name: forge-ci-local
+    driver: bridge

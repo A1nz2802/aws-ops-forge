@@ -1,0 +1,29 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListOidcProviders",
+      "Effect": "Allow",
+      "Action": "iam:ListOpenIDConnectProviders",
+      "Resource": "*"
+    },
+    {
+      "Sid": "ReadGitHubOidcProvider",
+      "Effect": "Allow",
+      "Action": "iam:GetOpenIDConnectProvider",
+      "Resource": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/token.actions.githubusercontent.com"
+    },
+    {
+      "Sid": "ReadLabPublisherRole",
+      "Effect": "Allow",
+      "Action": "iam:GetRole",
+      "Resource": "arn:aws:iam::<ACCOUNT_ID>:role/forge-lab003-ci-publish"
+    },
+    {
+      "Sid": "ReadLabRepository",
+      "Effect": "Allow",
+      "Action": "ecr:DescribeRepositories",
+      "Resource": "arn:aws:ecr:us-east-2:<ACCOUNT_ID>:repository/forge-service-lab003"
+    }
+  ]
+}

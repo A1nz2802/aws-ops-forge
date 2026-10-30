@@ -16,7 +16,9 @@ Short durable index. Evidence belongs in checkpoints; practical refreshers in
 - Active lab: **none**. Lab 003 closed with scoped publication/denial/cleanup evidence.
 - Next: new dedicated session using `learning/checkpoint-003-ci-image-publish.md`.
   No standing AWS approval. Postclosure separate follow-up commits/harness review
-  requested; no extra push/CI run. README/manual diagrams await learner feedback.
+  requested; no extra push/CI run. Notes revised as conceptual refreshers; lab
+  briefs compacted; visual root README uses .images/ PNG exports. Notes now split
+  into labs/ and fundamentos/<tool>/; presentation and notes layout revised.
   Private note and engineering section written.
 - Shared tools: `tools/README.md`; host editor, `./forge` for Go/CLI/Terraform.
 - Harness streamlined: two read-only specialists, three lab commands, explicit
@@ -34,11 +36,11 @@ Short durable index. Evidence belongs in checkpoints; practical refreshers in
 
 | Lab | Outcome / evidence | Practical note |
 |---|---|---|
-| 000 | Closed partial; region guard, full preflight/checklist incomplete — `labs/000-safe-aws-workspace/checkpoint.md` | `notes/lab-000-safe-workspace.md` |
+| 000 | Closed partial; region guard, full preflight/checklist incomplete — `learning/checkpoint-000-safe-aws-workspace.md` | `notes/labs/lab-000-safe-workspace.md` |
 | Non-root access | Manual login/STS and denial checks; approval limitations — `learning/checkpoint-non-root-access.md` | Context in Lab 000/002 notes |
-| 001 | Scoped hosted test/build pipeline demonstrated — `learning/checkpoint-001-tested-container.md` | `notes/lab-001-tested-container.md` |
-| 002 | Scoped empty-ECR IaC/readback/teardown demonstrated; runtime limits — `learning/checkpoint-002-image-registry.md` | `notes/lab-002-image-registry.md` |
-| 003 | Hosted verified-image push, OIDC allow/deny, IaC teardown and local CI workbench demonstrated within scope — `learning/checkpoint-003-ci-image-publish.md` | `notes/lab-003-ci-image-publish.md` |
+| 001 | Scoped hosted test/build pipeline demonstrated — `learning/checkpoint-001-tested-container.md` | `notes/labs/lab-001-tested-container.md` |
+| 002 | Scoped empty-ECR IaC/readback/teardown demonstrated; runtime limits — `learning/checkpoint-002-image-registry.md` | `notes/labs/lab-002-image-registry.md` |
+| 003 | Hosted verified-image push, OIDC allow/deny, IaC teardown and local CI workbench demonstrated within scope — `learning/checkpoint-003-ci-image-publish.md` | `notes/labs/lab-003-ci-image-publish.md` |
 
 ## Retained resources / context
 

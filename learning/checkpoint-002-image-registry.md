@@ -45,7 +45,7 @@
 - No staging, commit, push or new hosted run during the lab's assessed execution.
   Subsequent requested harness maintenance/publication did not reopen the lab;
   Git history and remote checks record that delivery separately.
-- Practical note: `notes/lab-002-image-registry.md`.
+- Practical note: `notes/labs/lab-002-image-registry.md`.
 - Detailed history: [archive](archive/lab-002-evidence-history.md), load only for
   a specific evidence question. Public scope: `labs/002-image-registry/README.md`.
 - Next lab must begin in a **new session**. During post-closure maintenance,

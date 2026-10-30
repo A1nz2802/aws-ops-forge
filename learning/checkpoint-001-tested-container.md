@@ -35,5 +35,5 @@
 - Not demonstrated: artifact publication, deployment, branch protection,
   byte-reproducibility, dependency readiness or exhaustive image scan.
 - No remaining Lab 001 approval authorizes new publication or hosted runs.
-- Practical note: `notes/lab-001-tested-container.md` (reconstructed from evidence).
+- Practical note: `notes/labs/lab-001-tested-container.md` (reconstructed from evidence).
 - Detailed run IDs, reviews and approval history: [archive](archive/lab-001-evidence-history.md).

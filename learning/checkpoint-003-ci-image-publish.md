@@ -54,15 +54,17 @@
 
 ## Durable artifacts and handoff
 
-- Private practical note written: notes/lab-003-ci-image-publish.md, indexed in
+- Private practical note written: notes/labs/lab-003-ci-image-publish.md, indexed in
   notes/START-HERE.md; ONE consolidated CI engineering section with actual commands,
   decisions/incidents and cleanup. Never stage/publish notes.
-- Local root canvas updated to final topology; learner's separately edited/browser
-  diagrams were not overwritten or imported without source files.
-- Real run URLs in labs/003-ci-image-publish/README.md. Learner requested separate
-  postclosure lab, local-CI and harness follow-up commits. Original tested commit
+- Learner supplied .images/01.png, 02.png and approved/corrected 03.png exports,
+  removed the editable canvas; mentor visually checked corrected artifact/Floci
+  labels. Preserve exports; no editable source reconstructed.
+- Real runs: [publication](https://github.com/A1nz2802/aws-ops-forge/actions/runs/40815767972)
+  and [denial](https://github.com/A1nz2802/aws-ops-forge/actions/runs/40817926160).
+  Learner requested separate postclosure lab, local-CI and harness follow-ups. Tested commit
   278370c already mixed lab/tooling; preserve it, no history rewrite authorized.
-  Root README improvements and learner's manual diagram sources await feedback.
+  Visual README and PNG exports approved; no editable manual sources supplied.
   No postclosure push/run authorized. A normal main push would trigger publication
   with resources/variables removed; final delivery needs agreed non-running scope.
 - All lab phases complete; approvals are not standing authority for the next lab.

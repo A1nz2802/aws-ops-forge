@@ -1,59 +1,103 @@
 # AWS Ops Forge
 
-**A hands-on journey through AWS delivery automation, infrastructure, observability, and resilience.**
+**Build the delivery pipeline. Test its boundaries. Learn to operate what comes next.**
 
-AWS Ops Forge is a problem-driven learning lab for an experienced backend engineer refreshing AWS and building practical DevOps capability. It connects hands-on engineering to the AWS Certified DevOps Engineer - Professional (DOP-C02) blueprint while exploring broader architecture trade-offs.
+A hands-on AWS/DevOps learning project built around **ParcelFlow**, a fictional
+shipment-event service. A small Go application evolves through delivery,
+infrastructure, security and operations challenges—with evidence, not just recipes.
 
-## How the Lab Works
+**Go · Terraform · GitHub Actions · Docker · ACT · Floci · AWS**
 
-Each lab presents a realistic business problem, constraints, and observable acceptance criteria. The learner reasons about a design, investigates with the AWS CLI and documentation, explores manually where useful, automates the result with infrastructure as code, and tests failure or changed requirements. The tutor guides with questions and progressive hints rather than giving away the challenge solution.
+## What this project is for
 
-Labs are independent OpenCode sessions. `learning/PROGRESS.md` is a short index;
-compact checkpoints preserve current evidence and next actions. Private Spanish
-notes are written locally at closure for fast refresh in Obsidian; `notes/` is
-Git-ignored and not published. See [the note policy](docs/LEARNING-NOTES.md).
-Close a lab before starting the next one in a new session.
+- Refresh AWS knowledge and develop practical DevOps and platform-engineering skills.
+- Build reproducible environments, test failure paths and make access boundaries explicit.
+- Prepare for **DOP-C02** through progressively connected engineering problems.
 
-## Learning Principles
+## The local CI workbench
 
-- Prefer evidence and explanation over copied recipes.
-- Default to local experiments and zero AWS spend; require explicit approval before real AWS mutations or any planned spend.
-- Treat local emulators as fast feedback, not proof of AWS fidelity.
-- Use AWS CLI, Go, CloudFormation, and Terraform intentionally; use Ansible only where host configuration warrants it.
-- Keep theory concise and consult DDIA only when a lab needs a general distributed-systems concept.
-- Work in short design/practice/review blocks. Approve specific AWS actions as
-  bounded phases; keep checks without repeating consent for each command.
-- Keep closure notes practical: selected commands, decisions, troubleshooting,
-  cleanup/limits and a small diagram only when useful. Recall prompts are optional.
+Develop the pipeline locally before spending a real integration run on it.
 
-## Start Here
+![Local CI workbench: controller, runners, Docker and emulated AWS services](.images/03.png)
 
-1. Read `docs/ROADMAP.md` and `docs/SESSION-PROTOCOL.md`.
-2. Review `learning/PROGRESS.md`.
-3. In a dedicated OpenCode session, run `/lab-start <id>` to start or resume.
-4. Use `/lab-checkpoint` before ending an interrupted session and `/lab-close` only when ready to assess the lab.
+**Implemented:** ACT and its artifact server share an ephemeral controller container;
+runners, the test service and Floci communicate over a dedicated Docker network.
+Floci's ECR integration supports local push, digest and immutable-tag tests.
 
-Lab 000 practiced a local region guard without resource provisioning; its
-remaining identity/preflight gaps are recorded, not assumed complete. See the
-progress index for subsequent labs rather than restarting Lab 000 by default.
+The workbench provides linting, execution, positive/negative tests and scoped
+cleanup. It uses Docker-outside-of-Docker: **trusted code only**, not a sandbox.
+The separate `forge` tools container provides interactive Go, Terraform and AWS CLI.
 
-The working contract is [`AGENTS.md`](AGENTS.md); command/approval flow is in
-[`docs/SESSION-PROTOCOL.md`](docs/SESSION-PROTOCOL.md). Link notes into an existing
-Obsidian vault only after confirming its path; see
-[`docs/LEARNING-NOTES.md`](docs/LEARNING-NOTES.md).
+<details>
+<summary><strong>Run the local checks</strong> — Linux amd64, Docker Engine/Compose and Bash</summary>
 
-## Current Status
+From the repository root, with no conflicting local test resources:
 
-For the shared local Go, AWS CLI, and Terraform environment, see
-[`tools/README.md`](tools/README.md). Start with `./forge build` and `./forge`.
-Starting the tools environment does not authenticate or authorize AWS actions.
+```sh
+bash tools/ci/ci.sh build
+bash tools/ci/ci.sh up
+bash tools/ci/ci.sh test transfer
+bash tools/ci/ci.sh test ecr
+bash tools/ci/ci.sh down
+```
 
-See `learning/PROGRESS.md` for the active lab, evidence, and next step. The roadmap is competency-based and has no fixed study schedule.
+The tools build can take several minutes. Downloads need network access; images
+and caches are retained. These commands target local tests, not real AWS.
+See the [workbench guide](tools/ci/README.md) for prerequisites, smoke checks,
+individual commands and cleanup limits. Another-host/cold-install reproduction
+has not yet been demonstrated.
 
-## Safety
+</details>
 
-Never commit credentials, access keys, account-specific secrets, local Terraform state/plans, or private study material. Do not deploy to AWS based on a Free Tier label alone. Billing alerts are not hard spending caps. Verify account, profile, region, current plan/credits, expected charges, and teardown before any approved deployment.
+## First delivery slice: from code to a trusted artifact
 
-## Study References
+**Labs 001–003 are one progression**, not three unrelated demos:
 
-The DOP-C02 exam guide and DDIA second-edition PDF are optional local references kept outside this repository. See `docs/REFERENCES.md`; the PDFs are not redistributed here.
+**Test the Go service → define its registry with IaC → publish the verified image with temporary identity.**
+
+![Service CI: verified artifact transfer, OIDC trust and publication to ECR](.images/02.png)
+
+The image is built once, tested, transferred between jobs and published to ECR
+without rebuilding. GitHub OIDC replaces persistent AWS keys; the role trusts the
+exact authorized subject. Tags are immutable and publication records the digest.
+The full publication route is shown; manual service runs stop at load/compare.
+
+| Demonstrated | Still outside this slice |
+|---|---|
+| Hosted tests/build and verified-image transfer | Application deployment and rollback |
+| Real OIDC/ECR publication and rejected non-main role assumption | Full production security and concurrency hardening |
+| Local ACT/Floci integration and negative tests | Complete AWS/emulator equivalence |
+| Scoped Terraform create, repair, readback and teardown | Multi-environment or second-host portability proof |
+
+Start with the [registry design](labs/002-image-registry/README.md),
+[publication challenge](labs/003-ci-image-publish/README.md) or
+[progress and evidence index](learning/PROGRESS.md). Deployment is a future step;
+the next lab's scope and numbering are not yet fixed.
+
+## The bigger picture
+
+![Target lifecycle: propose, verify, preserve, publish, deploy, observe and recover](.images/01.png)
+
+This is the **target system**, not a claim that every stage is implemented.
+The next challenges will connect delivery to operation: controlled deployments,
+observability, failure response and recovery. The [roadmap](docs/ROADMAP.md) follows
+demonstrated competency rather than a calendar.
+
+## Explore and work safely
+
+| Area | Entry point |
+|---|---|
+| Lab workflow and session shortcuts | [Session protocol](docs/SESSION-PROTOCOL.md) |
+| Tutoring, ownership and safety contract | [AGENTS.md](AGENTS.md) |
+| Local development tools | [Tools guide](tools/README.md) · [CI workbench](tools/ci/README.md) |
+| AWS documentation, exam guide and optional DDIA reading | [References](docs/REFERENCES.md) |
+| Private conceptual study notes | [Notes policy](docs/LEARNING-NOTES.md); content is local and Git-ignored |
+
+Cloud mutations require bounded approval, target/cost checks and verified cleanup.
+**Credits and billing alerts are not hard spending caps.** Emulation success is
+not real-AWS proof, and successful publication is not production readiness.
+
+The lab resources and CI variables were removed after validation. The workflow
+remains in source: **a normal push to `main` triggers it**. Do not treat a clone,
+README command or post-lab documentation change as approval to deploy. Credentials,
+account inputs, Terraform state/plans, study PDFs and private notes stay out of Git.

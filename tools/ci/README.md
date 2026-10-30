@@ -5,6 +5,11 @@ trusted-code user. ACT runs in an ephemeral Compose controller container; the
 host daemon runs that controller and its sibling job containers.
 This is not a sandbox for external pull requests or a replica of hosted GitHub.
 
+[Architecture overview](../../.images/03.png) and [project overview](../../README.md).
+The image shows topology when running, not continuously running infrastructure.
+Artifacts live inside the controller; Floci's ECR integration uses a registry
+auxiliary container, as described below.
+
 ## Explicit entry point
 
 ```sh

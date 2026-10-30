@@ -24,6 +24,8 @@ cdk.out/
 .obsidian/workspace-mobile.json
 private/
 local/
+# Local study references in the repository root are never publication candidates.
+/*.[pP][dD][fF]
 # Private Spanish learning notes, linked into the personal Obsidian vault.
 /notes/
 # OpenCode-generated local dependencies/configuration, not authored agent rules.

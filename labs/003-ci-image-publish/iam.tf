@@ -22,7 +22,7 @@ data "aws_iam_policy_document" "github_trust" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:a1nz2802/aws-ops-forge:ref:refs/heads/main"]
+      values   = ["repo:A1nz2802@65474922/aws-ops-forge@1411230400:ref:refs/heads/main"]
     }
     actions = ["sts:AssumeRoleWithWebIdentity"]
   }

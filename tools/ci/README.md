@@ -29,6 +29,48 @@ secret values are accepted through this interface.
 The script locates the repository relative to itself. Invoke it by its absolute
 path when outside the repository. It does not install prerequisites or log in.
 
+## Reproduce the local test cycle
+
+Prerequisites: a Linux amd64 host, accessible local Docker Engine/Compose, Bash,
+available disk space and outbound access for downloads. Host ACT, Go, Terraform
+and AWS CLI are not required for these test commands. ShellCheck/actionlint are
+separate prerequisites only for the optional static checks below.
+
+From the repository root, with no concurrent tests or conflicting resources:
+
+```sh
+bash tools/ci/ci.sh build
+bash tools/ci/ci.sh up
+bash tools/ci/ci.sh test smoke
+bash tools/ci/ci.sh test floci
+bash tools/ci/ci.sh test transfer
+bash tools/ci/ci.sh test ecr
+bash tools/ci/ci.sh down
+```
+
+`transfer` includes verification and creates the local service image required by
+`test ecr`. A missing prerequisite fails instead of being installed implicitly.
+Stop on test failure and inspect state before rerunning; do not place the entire
+sequence in a shell trap that hides cleanup errors. `down` is an explicit action.
+This cycle was exercised on the original host in component/lifecycle blocks;
+the exact fresh-clone sequence on another machine has not been demonstrated.
+
+### Files and responsibilities
+
+| File | Responsibility |
+|---|---|
+| `Dockerfile.runner` | Pinned tools image, including ACT and AWS CLI |
+| `compose.yml` | Floci, opt-in controller, socket mounts and CI network |
+| `ci.sh` | Host entry point; explicit commands and preflight checks |
+| `controller.sh` | Ephemeral ACT config/cache and internal artifact address |
+| `smoke.yml`, `floci.yml`, `ecr.yml` | Local-only auxiliary workflows |
+| `ecr-test.sh` | Emulated publication/immutability assertions and scoped cleanup |
+| `.github/workflows/service-ci.yml` | Service pipeline, also executable by real GitHub |
+
+The first tools build compiles ACT and can take several minutes. Docker may reuse
+that layer on later builds; controller action downloads remain ephemeral. Digest
+pins improve input control, not byte-for-byte reproducibility or CVE guarantees.
+
 ## Current implementation versus target
 
 | Component | Current behavior |
@@ -133,9 +175,10 @@ The learner reported successful `down`, resource-absence checks, `up`, and
 `test smoke`, `test floci`, `test transfer` in sequence on the original Linux
 amd64 host. The transfer screenshot shows matching image IDs and successful jobs;
 the Floci test screenshot shows AWS CLI 2.32.7 and the local response assertion.
-Subsequent read-only inspection found no controller, job runners or test service,
+Intermediate read-only inspection found no controller, job runners or test service,
 no host artifact listener, and only healthy Floci attached to the CI network.
-Floci and its loopback API are intentionally left running for continued work.
+At lab closure, Floci was stopped and the CI network/registry volume were absent.
+The workbench definition is retained; there is no continuously running local CI.
 
 This recreates containers and networking while reusing local images/caches. It
 does not demonstrate a cold install or a second host; cross-architecture support

@@ -23,7 +23,7 @@
 
 - Unvalidated assumptions / production concerns: <short list>
 - Commands needed to resume: <few, with working directory; no secrets>
-- Private Spanish note at closure: <notes/lab-...md; Git-ignored, not for publication>
+- Private Spanish note at closure: <notes/labs/lab-...md; Git-ignored, not for publication>
 - Evidence history: <optional archive link; do not load it by default>
 - Next session: <resume this lab or explicitly scope a different lab>
 

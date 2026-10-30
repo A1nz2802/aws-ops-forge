@@ -1,59 +1,54 @@
 # Private Learning Notes
 
-## Language and publication boundary
+## Purpose: a practical refresher, not another checkpoint
 
-- `notes/` contains **private Spanish learning notes**, not public portfolio
-  artifacts. `/notes/` in `.gitignore` excludes the entire directory.
-- Public documentation, briefs, evidence summaries and examples remain in English.
-  This English policy is public-safe; the notes and their local templates are not.
-- Never stage, force-add, commit or publish notes. Before a commit, check both
-  tracked files and staged paths: ignore rules do not untrack existing files.
-- Private does not mean a place to copy credentials, tokens, raw state/plans,
-  personal vault paths or private PDFs. Do not reproduce copyrighted passages.
+`notes/` is private Spanish study material, ignored by Git. Public lab briefs and
+documentation are English and authored separately. Never stage/force-add notes.
+If notes are already tracked, report that before changing the index/history.
 
-## Closure workflow
+Write the closure note from actual practice, but optimize it for a later reader:
+**What problem did I solve? How do the pieces work? What can I reuse elsewhere?**
 
-The mentor writes/updates one concise note **in Spanish at each lab closure**,
-including partial closures, using the actual session evidence. Reconstructed
-historical notes must say so. Do not invent successful steps or a complete CLI
-history when only service actions/results were recorded.
+| Keep in study notes | Keep in the checkpoint / archive |
+|---|---|
+| Mental model, small diagram, tool vocabulary | Exact run/commit/image hashes and timestamps |
+| Why a design was chosen and its tradeoff | Approval timeline and detailed acceptance ledger |
+| Commands with purpose, inputs and expected behavior | Screenshots/log provenance and who verified each deletion |
+| A reusable troubleshooting lesson | Machine-specific escalation tools or incidental shell history |
+| Short practice scope and unvalidated boundary | Full retained-resource/access inventory |
 
-Create `notes/lab-<id>-<topic>.md` and link it from the private `START-HERE.md`.
-Use the local `LAB-NOTE-TEMPLATE.md` if available. On a fresh checkout these
-ignored files may be absent: initialize the index, short Spanish README and
-template from this policy, without adding them to Git.
+The note must not invent studied theory or successful commands. A short scope
+sentence and checkpoint link suffice; do not repeat evidence caveats everywhere.
+Never store credentials, real account IDs, raw tokens/state/plans or copied PDFs.
 
-Aim for a fast refresher, usually 40–90 lines:
+## Authoring at closure
 
-1. Native Obsidian properties: note type, lab, outcome/status and a few tags.
-2. Outcome and evidence boundary; distinguish observed, reported and unvalidated.
-3. A small ASCII flow only when it helps, plus a compact decision/result table.
-4. Selected commands, including profile/authentication/inspection when relevant,
-   with runtime/directory and expected results. Label added reference helpers
-   separately from evidenced commands; link shared references to avoid repetition.
-5. One actual troubleshooting lesson; cleanup/retention and unvalidated limits.
-6. Local wikilinks/heading links and project-relative evidence references.
+- Write/update `notes/labs/lab-<id>-<topic>.md`, including partial closures, and link
+  it from `notes/START-HERE.md`. Use `notes/plantillas/LAB-NOTE-TEMPLATE.md` when present.
+- Keep reusable tool explanations under `notes/fundamentos/<tool>/`; labs apply
+  the tools and link fundamentals instead of copying the same theory everywhere.
+- Explain newly used tool concepts briefly or link one reusable concept note.
+  Existing experience does not imply familiarity with every CI tool.
+- Show native `aws`, `terraform`, `docker` or `gh` commands first, with placeholders
+  and a clear execution context. Explain `./forge`/CI wrappers once as this
+  project's invocation, not as portable tools or the concept itself.
+- Select representative commands; explain useful flags and expected results.
+  Separate optional reference helpers from what was practiced, without a transcript.
+- Prefer concise prose, small tables and code blocks; avoid giant command tables,
+  long digests, ceremony or infrastructure-specific trivia that obscures learning.
+- Include one genuine lesson and a short cleanup/limits summary; detailed evidence
+  stays in the checkpoint. Suggested length is not a gate: cut redundancy first.
+- Keep one engineering section when requested. Add reusable notes only for a real
+  recurring need, not one atomic note per term. Recall prompts are optional.
+- Fresh clones may lack notes: initialize Spanish notes/index/template locally at
+  closure. No Obsidian/community plugin is required and absence never blocks closure.
 
-Write human-readable titles, headings and prose in Spanish. Preserve literal
-command syntax, service names and code identifiers. No community plugin is
-required; no transcript/log dump. Recall prompts are optional. Add a separate
-concept/incident reference only when it is reusable, not as a quota.
+## Vault integration
 
-Keep the notes self-contained. Paths outside `notes/` are project references,
-not vault wikilinks. Check headings after translation. Notes summarize learning;
-checkpoints/archives hold detailed evidence and current execution state.
-
-## Existing-vault integration
-
-```text
-Existing vault/
-└── AWS Ops Forge -> <project>/notes/
-```
-
-Ask for the exact vault location before creating a link. Verify the parent and
-ensure the destination is absent, including dangling symlinks. Do not search for
-personal vaults, inspect unrelated notes or overwrite a destination. A Linux
-pattern from the project root, after explicit path confirmation, is:
+The ignored project directory is the source of truth. Link it into an existing
+vault only after the learner supplies the **exact** vault path. Never search
+personal vaults or inspect unrelated notes. Do not overwrite any destination,
+including dangling symlinks, or commit a personal absolute path/external symlink.
 
 ```sh
 VAULT="<exact-existing-vault-path>"
@@ -63,9 +58,7 @@ test -d "$VAULT" &&
   ln -s -- "$PWD/notes" "$VAULT/AWS Ops Forge"
 ```
 
-Do not store the real absolute path or an external symlink in the repository.
-The project holds the real, ignored Markdown; the vault holds the symlink. Do
-not add a nested `.obsidian/` directory here. Verify index/heading navigation in
-Obsidian after setup; client/sync behavior varies. A missing link never blocks
-lab closure. Removing the integration means unlinking only the vault entry,
-not deleting its target notes. Moving the project requires updating the link.
+Use native properties, local wikilinks/headings and no nested `.obsidian/` here.
+Paths outside notes are project references, not vault wikilinks. Check navigation
+in Obsidian after setup; filesystem link verification does not prove indexing.
+Moving the project needs a link update; remove only the vault entry to unlink it.

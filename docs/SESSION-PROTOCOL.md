@@ -6,6 +6,19 @@ after closure without starting another lab.
 
 ## Start or resume: `/lab-start <id>`
 
+These OpenCode shortcuts are defined in `opencode.json`; they are not shell
+commands and are not required incantations. Natural-language requests work too.
+
+| Shortcut | When useful |
+|---|---|
+| `/lab-start 003` | Load the brief/checkpoint and start or resume that lab |
+| `/lab-checkpoint` | Save a pause or a substantial change of direction |
+| `/lab-close` | Assess, clean up, write the practical refresher and hand off |
+
+The mentor should suggest the relevant shortcut at a start, pause or closure,
+without requiring the learner to repeat a clear request or remembering commands
+as an assessment. A tooling detour may use a checkpoint, not a second lab/process.
+
 Load only progress, the requested brief/checkpoint and directly relevant files.
 A checkpoint means resume: summarize the current state and continue, not another
 quiz. A fresh lab starts with business context, constraints, acceptance criteria,

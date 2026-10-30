@@ -19,6 +19,8 @@ Design/prediction -> hands-on block -> evidence/troubleshooting -> next decision
 
 Ask only questions that change a decision or reveal a useful misconception.
 Do not make the learner repeatedly reconstruct an already demonstrated answer.
+Batch related mechanical edits/commands into one practice block and review its
+evidence together, rather than requiring a separate "saved/done" exchange per step.
 `/lab-resume` is retired; `/lab-start <id>` handles both paths.
 
 ## AWS phase approval
@@ -68,7 +70,10 @@ Archive long historical evidence only when needed to preserve provenance.
    or copied logs. The whole `notes/` directory is ignored, never a commit candidate.
 4. Replace the checkpoint with a compact closure assessment and link any history;
    update the progress index. Public summaries stay in English, separate from
-   private Spanish notes.
+   private Spanish notes. Before any requested final Git delivery, inspect CI
+   triggers against the post-cleanup state: documentation/source publication is
+   not authorization for a new deployment. Agree a non-running delivery where
+   appropriate; do not silently disable security controls or rewrite pushed commits.
 5. Explicitly tell the learner in Spanish to open a new session for the next lab.
 
 A partial closure still gets an honest note. Obsidian installation or a missing

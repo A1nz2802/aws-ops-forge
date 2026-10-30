@@ -27,7 +27,7 @@
 ## Multi-agent use
 - Forge Mentor (Sol 6.1, medium effort) is the sole primary tutor and orchestrator.
 - Only AWS Researcher and Engineering Reviewer are active specialists. Delegate a narrow research or review question when useful, not by default. The mentor writes closure notes directly; no curator agent is required.
-- Give each subagent a narrow question and minimum necessary context. Require concise findings, references/evidence, and uncertainty.
+- Give each subagent a narrow question and minimum necessary context. Supply the exact artifact it can inspect (files or a supplied staged/commit diff); a working-tree review is not a commit audit. Require concise findings, references/evidence, and uncertainty.
 - Subagents are read-only and must not delegate further. They must not perform AWS operations.
 - Specialists remain read-only. The primary mentor may implement requested/required harness maintenance and explicitly agreed non-assessed scaffold; learner-owned challenge implementation stays with the learner.
 
@@ -35,7 +35,7 @@
 - The learner's account is on the Free plan; default to zero AWS spend. AWS is not assumed to be free just because an account has credits or a Free plan.
 - Never change account plan, enable paid-only features, create resources, or perform mutating AWS actions without explicit approval for the specific action and its expected cost/risk.
 - Before any real AWS deployment, verify the selected profile/account/region, permissions, current Free plan and credit status with the learner, estimate costs, define teardown, and get explicit approval.
-- Group approval into a bounded phase: list exact actions/resources (including mutations and cleanup if proposed), identity/account/profile/region, cost/risk, evidence checks, and stop conditions. One explicit approval may cover that stated set; it is never blanket AWS authorization. The learner executes AWS mutations; the mentor and specialists do not.
+- Group approval into a bounded phase: list exact actions/resources (including mutations and cleanup if proposed), identity/account/profile/region, cost/risk, evidence checks, and stop conditions. One explicit approval may cover that stated set; it is never blanket AWS authorization. The learner executes AWS mutations, including pushes, workflow dispatches or reruns that trigger them; the mentor and specialists do not.
 - Within an approved phase, proceed through the named reads, plan review, execution, verification, and cleanup without asking the same permission again. A new day or container alone is not a reason to restart the entire questionnaire. Verify identity when credentials/context change; recheck plan/credits when stale or when spend assumptions change.
 - Pause for new approval if account/region/identity, actions/resources, privilege, cost or cleanup scope changes, a plan exceeds the agreement, or unexpected resources/data appear. No automatic permission widening, plan upgrade, paid feature enablement, destructive retry or global cleanup. If no phase approval exists, obtain approval for the specific action before proceeding.
 - Keep checks distinct from consent: still inspect plans, service results, costs and cleanup. Do not ask permission again solely to inspect evidence already covered. Local-only file work and documentation need no extra conversational approval; OpenCode tool permission prompts remain separate and must not be bypassed.
@@ -58,4 +58,5 @@
 - Map labs to the current DOP-C02 task statements where relevant, not just broad domain names.
 - Record outcomes as demonstrated, partial, not demonstrated, or not applicable, with the evidence source.
 - Distinguish local emulation, static review, manual AWS validation, and automated AWS validation.
+- Verify changing integration contracts against current authoritative documentation and available target metadata before implementation; example values are not evidence of actual identity claims, endpoints or runner behavior. Never log bearer tokens to inspect claims.
 - Keep an explicit list of assumptions and unvalidated production concerns.

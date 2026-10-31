@@ -20,6 +20,10 @@ Short durable index. Evidence belongs in checkpoints; practical refreshers in
   briefs compacted; visual root README uses .images/ PNG exports. Notes now split
   into labs/ and fundamentos/<tool>/; presentation and notes layout revised.
   Private note and engineering section written.
+- Postclosure publication review: `docs/PUBLICATION-SECURITY.md`; Gitleaks history
+  and retained-log scans found no secrets. Approved deletion of detailed Lab 003
+  logs verified; run statuses/evidence retained. Repo private; final [skip ci]
+  delivery and learner visibility change approved, pending execution/verification.
 - Shared tools: `tools/README.md`; host editor, `./forge` for Go/CLI/Terraform.
 - Harness streamlined: two read-only specialists, three lab commands, explicit
   phase approvals and mandatory practical closure notes; no new tool services.
@@ -27,9 +31,8 @@ Short durable index. Evidence belongs in checkpoints; practical refreshers in
   `docs/LEARNING-NOTES.md`. Never stage/publish notes.
   Vault-side symlink created at the learner's supplied location and filesystem
   target verified; Obsidian indexing/heading navigation awaits learner check.
-- Post-closure publication of the harness and completed lab artifacts explicitly
-  requested by learner, including normal existing push CI. Delivery is recorded
-  in Git history/remote checks, not a self-referential checkpoint commit ID.
+- Current postclosure delivery excludes CI execution: mentor prepares a real
+  [skip ci] commit; learner pushes and makes public after checks. No new AWS work.
   Private notes, credentials, state/plans and generated dependencies stay excluded.
 
 ## Lab index

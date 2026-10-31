@@ -42,8 +42,10 @@
   ForgeLab003PreflightRead, ForgeLab003Provision, ForgeLab003TrustRepair removal
   and forge-login logout learner-confirmed. Original learner user/MFA/login policy
   retained. No server-side immediate credential-revocation claim.
-- Mentor verified GitHub variables [] and denial branch absent. Runs/history and
-  short-retention artifact retained in GitHub; no further run/retry authorized.
+- Mentor verified GitHub variables [] and denial branch absent. Runs/statuses
+  retained; artifact inventory later empty. At approved publication review, only
+  detailed logs of the two Lab 003 runs deleted; all attempts return 404, statuses
+  still success. Sanitized evidence above preserved; no further run/retry authorized.
 - Mentor Docker/port checks: no CI controllers/runners/test service/Floci,
   forge-ci-local network, registry volume, listeners 4566/34567. Local images,
   caches, private artifacts/state/plans and tools home retained; no global inventory.
@@ -65,6 +67,7 @@
   Learner requested separate postclosure lab, local-CI and harness follow-ups. Tested commit
   278370c already mixed lab/tooling; preserve it, no history rewrite authorized.
   Visual README and PNG exports approved; no editable manual sources supplied.
-  No postclosure push/run authorized. A normal main push would trigger publication
-  with resources/variables removed; final delivery needs agreed non-running scope.
+  Postclosure non-running delivery now approved: real [skip ci] commit, learner
+  push, verify no run, learner public-visibility change and free-protection review.
+  Normal main pushes still trigger CI; no AWS work or additional runs approved.
 - All lab phases complete; approvals are not standing authority for the next lab.
